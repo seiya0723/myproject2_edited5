@@ -1,0 +1,137 @@
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!--日本語化用JS-->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+
+
+
+
+    <link rel="stylesheet" href="{% static 'bbs/css/style.css' %}">
+    <script src="{% static 'bbs/js/script.js' %}"></script>
+
+    
+    
+    
+    <style>
+    .example1 {
+    width: 300px;
+    height: 180px;
+    }
+    </style>
+</head>
+<body>
+
+<h1>helow world!</h1>
+
+<img class="example1" src="{% static 'bbs/img/cat.jpeg' %}">
+
+
+<form action="" method="get">
+    <input type="text" name="search" placeholder="検索したいワード" value="{{ request.GET.search }}">
+    <input type="submit" class="btn btn-outline-dark" value="検索">
+</form>
+
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="鑑定科目を入力してください">
+    <input type="text" name="comment" placeholder="主な用途を入力してください">
+    <input type="number" name="salary" placeholder="収入金額を入力してください">
+    <input type="number" name="spending" placeholder="支出金額を入力してください"> <!-- スペルミスに注意 -->
+    <input type="number" name="price" placeholder="残高を入力してください">
+    <input id="pay_dt" type="text" name="pay_dt" readonly>
+    <input class="btn btn-success" type="submit" value="投稿">
+</form>
+
+
+
+
+
+
+
+
+
+
+{% if topics %}
+<table>
+    <thead>
+        <tr>
+            <td>鑑定科目</td>
+            <td>主な用途</td>
+            <td>収入金額</td>
+            <td>支出金額</td>
+            <td>残高</td>
+            <td>登録日</td>
+            <td>決済日</td>
+        </tr>
+    </thead>
+
+    <tbody>
+    
+    {% for topic in topics %}
+    <tr>
+        <td>{{ topic.id }}</td>
+        <td>{{ topic.title }}</td>
+        <td>{{ topic.comment }}</td>
+        <td>{{ topic.price }}</td>
+        <td>{{ topic.dt }}</td>
+        <td>{{ topic.pay_dt }}</td>
+        <td>
+           <form action="{% url 'bbs:delete' topic.id %}" method="POST">
+               {% csrf_token %}
+               <input class="btn btn-outline-dark" type="submit" value="削除">
+           </form>
+        </td>
+    </tr>
+    {% endfor %}
+    
+    
+    </tbody>
+
+</table>
+{% endif %}
+
+<div style="border:solid 1px orange;">
+    <div></div>
+    <div></div>
+</div>
+
+
+<form action="" method="GET">
+    <input type="text" name="search" placeholder="キーワードを入力してください">
+    <input type="text" name="category" placeholder="カテゴリを入力してください">
+    <input class="btn btn-success" type="submit" value="送信">
+
+</form>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" name="comment" placeholder="コメントを入力してください">
+    <input type="text" name="anti" placeholder="反対コメントを入力してください">
+    <input type="submit" value="送信">
+
+</form>
+
+<p>{{ chobo }}</p>
+
+{% for chobo in chobos %}
+<div style="border:solid 0.2rem orange; padding:0.25rem;">
+<div>{{ chobo.id }}</div>
+<div>{{ chobo.title }}</div>
+<div>{{ chobo.price }}</div>
+</div>
+{% endfor %}
+
+</body>
+
+</html>
