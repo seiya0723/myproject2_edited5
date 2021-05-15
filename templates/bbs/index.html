@@ -44,6 +44,7 @@
 
 <form action="" method="post">
     {% csrf_token %}
+    
     <input type="text" name="title" placeholder="鑑定科目を入力してください">
     <input type="text" name="comment" placeholder="主な用途を入力してください">
     <input type="number" name="salary" placeholder="収入金額を入力してください">
@@ -63,16 +64,18 @@
 
 
 {% if topics %}
-<table>
-    <thead>
+<table class="table table-striped">
+    <thead class="table-dark">
         <tr>
-            <td>鑑定科目</td>
-            <td>主な用途</td>
-            <td>収入金額</td>
-            <td>支出金額</td>
-            <td>残高</td>
-            <td>登録日</td>
-            <td>決済日</td>
+            <td class="text-center">id</td>
+            <td class="text-center">鑑定科目</td>
+            <td class="text-center">主な用途</td>
+            <td class="text-center">収入金額</td>
+            <td class="text-center">支出金額</td>
+            <td class="text-center">残高</td>
+            <td class="text-center">登録日</td>
+            <td class="text-center">決済日</td>
+            <td></td>
         </tr>
     </thead>
 
@@ -84,6 +87,8 @@
         <td>{{ topic.title }}</td>
         <td>{{ topic.comment }}</td>
         <td>{{ topic.price }}</td>
+        <td>{{ topic.salary }}</td>
+        <td>{{ topic.spending }}</td>
         <td>{{ topic.dt }}</td>
         <td>{{ topic.pay_dt }}</td>
         <td>

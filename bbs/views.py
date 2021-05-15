@@ -18,10 +18,10 @@ class BbsView(View):
         if "search" in request.GET:
 
             if request.GET["search"] == "" or request.GET["search"].isspace():
-                return redirect("shopping:index")
+                return redirect("bbs:index")
 
             search      = request.GET["search"].replace(" ","　")
-            search_list =search.split(" ")
+            search_list = search.split(" ")
 
             query       = Q()
             for word in search_list:
@@ -29,9 +29,9 @@ class BbsView(View):
                 query &= Q(title__contains=word)
 
 
-            topics  = Topic.objects.filter(query)
+            topics  = Topic.objects.filter(query).order_by("-dt")
         else:
-            topics  = Topic.objects.all()
+            topics  = Topic.objects.all().order_by("-dt")
 
 
 
